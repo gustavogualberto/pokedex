@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+
+@theme {
+  
+  --color-vermelho-400: #ED0031;
+  --color-vermelho-800: #460613;
+
+  --color-preto-300: #969696; 
+  --color-preto-400: #232323;
+  --color-preto-500: #535353;
+  --color-preto-600: #2D2D2D;
+
+  --font-inter: 'Inter', sans-serif;
+}
