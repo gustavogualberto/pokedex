@@ -4,37 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Services\PokedexService;
+
 
 class PokemonController extends Controller
-{
+{   
+
+    protected $pokedexService;
+
+    public function __construct(PokedexService $pokedexService)
+    {
+        $this->pokedexService = $pokedexService;
+    }
+
     public function index()
     {   
-        $response = Http::get('https://pokeapi.co/api/v2/pokemon/?limit=18&offset=0');
-        $results = $response->json()['results'];
+        $buscaPokemons = $this->pokedexService->buscaPokemons();
 
-        $characters = [];
+        $pokemonsTemTipos = $this->pokedexService->tiposPokemons($buscaPokemons);
 
-        
-        foreach ($results as $pokemon) {
-            $details = Http::get($pokemon['url'])->json();
-
-            $types = [];
-            foreach($details['types'] as $typeInfo){
-                $types[] = $typeInfo['type']['name'];
-            }
-
-
-            $characters[] = [
-                'name' => $pokemon['name'],
-                'image' => $details['sprites']['other']['dream_world']['front_default'],
-                'types' => $types
-            ];
-
-        
-        }
-
-        // dd($details);
-        
-        return view('welcome', compact ('characters'));
+        return view('welcome', ['characters' => $pokemonsTemTipos]);
     }
 }
